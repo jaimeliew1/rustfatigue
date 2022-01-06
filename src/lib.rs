@@ -1,5 +1,6 @@
 use num::traits::{Float, FromPrimitive, ToPrimitive};
 
+
 pub fn abs_difference<T: std::ops::Sub<Output = T> + std::cmp::PartialOrd>(x: T, y: T) -> T {
     if x < y {
         y - x
@@ -106,3 +107,7 @@ where
     let del = (sum_damage / (neq as f64)).powf(1.0 / m);
     del
 }
+
+
+mod python_module;
+mod tests;
