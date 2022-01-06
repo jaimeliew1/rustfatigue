@@ -1,13 +1,19 @@
 [package]
 name = "rustfatigue"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT"
 description = "A fatigue calculation library for Python written in Rust."
 repository = "https://github.com/jaimeliew1/rustfatigue"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "rustfatigue"
+crate-type = ["cdylib"]
+
 
 [dependencies]
-"rand" = "0.8.4"
 num = "0.4.0"
+thiserror = "1.0.30"
+numpy = "0.15.0"
+pyo3 = { version = "0.15.1", features = ["extension-module"] }
