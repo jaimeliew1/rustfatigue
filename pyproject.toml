@@ -1,8 +1,6 @@
 [project]
 name = "rust-fatigue"
 description = "Create a pyproject.toml file for an existing project."
-authors = ["Jaime Liew <jaimeliew1@gmail.com>"]
-license = "MIT"
 readme = "README.md"
 python = "^3.6"
 repository = "https://github.com/jaimeliew1/rustfatigue"
