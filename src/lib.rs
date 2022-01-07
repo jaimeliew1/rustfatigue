@@ -104,7 +104,7 @@ where
         .iter()
         .map(|x| T::to_f64(x).unwrap().powf(m))
         .sum();
-    let del = (sum_damage / (neq as f64)).powf(1.0 / m);
+    let del = (sum_damage / (2 * neq as f64)).powf(1.0 / m);
     del
 }
 
