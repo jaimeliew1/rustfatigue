@@ -1,6 +1,6 @@
 [project]
 name = "rust-fatigue"
-description = "Create a pyproject.toml file for an existing project."
+description = "A fatigue calculation library for Python written in Rust."
 readme = "README.md"
 python = "^3.6"
 repository = "https://github.com/jaimeliew1/rustfatigue"
