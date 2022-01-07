@@ -26,4 +26,4 @@ test_vec = [
 
 
 def test_eq_load():
-    np.testing.assert_almost_equal(eq_load(test_vec, 4, 20), 54.83366824817066)
+    np.testing.assert_almost_equal(eq_load(test_vec, 4, 20), 46.10943506509813)
