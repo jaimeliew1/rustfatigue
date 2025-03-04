@@ -3,6 +3,7 @@ name = "rust-fatigue"
 description = "A fatigue calculation library for Python written in Rust."
 readme = "README.md"
 python = "^3.6"
+version = "0.1.4"
 repository = "https://github.com/jaimeliew1/rustfatigue"
 keywords = ["fatigue", "windenergy"]
 dependencies = ["numpy>=1.19.2", "pytest>=5.1.2"]
