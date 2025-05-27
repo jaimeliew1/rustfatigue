@@ -40,11 +40,12 @@ where
         }
     }
     // phase 2
-    for (i, s) in S[0..S.len() - 1].iter().enumerate() {
-        halfcycles.push((S[i + 1] - *s).abs());
+    for w in S.windows(2) {
+        let r = (w[1] - w[0]).abs();
+        halfcycles.push(r);
         if !half {
-            halfcycles.push((S[i + 1] - *s).abs());
-        } 
+            halfcycles.push(r);
+        }
     }
 
     halfcycles
@@ -55,9 +56,9 @@ where
     T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
 {
     let peaktrough = get_peaktrough(&signal);
-    let amplitudes = get_halfcycles(&peaktrough, half);
+    let ranges = get_halfcycles(&peaktrough, half);
 
-    let sum_damage: f64 = amplitudes
+    let sum_damage: f64 = ranges
         .iter()
         .map(|x| T::to_f64(x).unwrap().powf(m))
         .sum();
