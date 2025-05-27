@@ -1,10 +1,10 @@
 [project]
 name = "rust-fatigue"
-version = "0.1.5"
+version = "0.1.6"
 description = "A damage equivalent load calculator for Python written in Rust."
 readme = "README.md"
 authors = [{ name = "Jaime Liew", email = "jaimeliew1@gmail.com" }]
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 dependencies = [
     "numpy>=1.21.6",
 ]
