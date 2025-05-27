@@ -57,6 +57,7 @@ In this package, Rainflow counting is performed in two steps.
 
 ### 3) Damage Equivalent Load Calculation
 From the rainflow output, the DEL is computed using the Wöhler (S–N) exponent $m$ and a target number of equivalent cycles $N_{\text{eq}}$. The calculation assumes that fatigue damage follows a power law, and each cycle contributes damage proportional to its range raised to the power $m$. The DEL $L_{\text{eq}}$ is the constant-amplitude load that would cause the same cumulative damage over $N_{\text{eq}}$ cycles:
+
 $$
 L_{\text{eq}} = \left( \frac{1}{2}\frac{\sum_{i} L_i^m}{N_{\text{eq}}} \right)^{\frac{1}{m}}
 $$
