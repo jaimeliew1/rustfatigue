@@ -37,4 +37,11 @@ mod tests {
         println!("{}", out);
         assert!((out - 46.10943506509813).abs() < 0.0001);
     }
+    
+    #[test]
+    fn eq_load_float_doublecount_residuals() {
+        let out = eq_load(&INP.to_vec(), 4.0, 20, false);
+        println!("{}", out);
+        assert!((out - 53.37846821582299).abs() < 0.0001);
+    }
 }
