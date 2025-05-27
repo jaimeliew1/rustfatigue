@@ -1,12 +1,15 @@
 [project]
-name = "rust-fatigue"
-description = "A fatigue calculation library for Python written in Rust."
+name = "rustfatigue"
+version = "0.1.5"
+description = "A damage equivalent load calculator for Python written in Rust."
 readme = "README.md"
-python = "^3.6"
-version = "0.1.4"
-repository = "https://github.com/jaimeliew1/rustfatigue"
-keywords = ["fatigue", "windenergy"]
-dependencies = ["numpy>=1.19.2", "pytest>=5.1.2"]
+authors = [{ name = "Jaime Liew", email = "jaimeliew1@gmail.com" }]
+requires-python = ">=3.7"
+dependencies = ["numpy>=1.19.2"]
+
+[dependency-groups]
+dev = ["pytest>=7.4.4"]
+
 
 [build-system]
 requires = ["maturin>=0.12,<0.13"]
