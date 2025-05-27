@@ -1,4 +1,4 @@
-from rustfatigue import eq_load
+from rustfatigue import damage_equiv_load
 import numpy as np
 
 test_vec = [
@@ -25,5 +25,13 @@ test_vec = [
 ]
 
 
-def test_eq_load():
-    np.testing.assert_almost_equal(eq_load(test_vec, 4, 20), 46.10943506509813)
+def test_damage_equiv_load():
+    np.testing.assert_almost_equal(
+        damage_equiv_load(test_vec, 4, 20), 46.10943506509813
+    )
+
+
+def test_whole_cycle_residuals():
+    np.testing.assert_almost_equal(
+        damage_equiv_load(test_vec, 4, 20, half=False), 53.37846821582299
+    )
