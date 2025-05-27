@@ -1,5 +1,5 @@
 [project]
-name = "rustfatigue"
+name = "rust-fatigue"
 version = "0.1.5"
 description = "A damage equivalent load calculator for Python written in Rust."
 readme = "README.md"

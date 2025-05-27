@@ -6,7 +6,7 @@ The core computation is implemented in Rust for high performance, wrapped with a
 # Installation
 
 ```bash
-pip install rustfatigue
+pip install rust-fatigue
 ```
 # Usage
 This package provides a single function which returns the DEL of a signal:
