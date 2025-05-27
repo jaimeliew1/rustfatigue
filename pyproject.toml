@@ -5,12 +5,16 @@ description = "A damage equivalent load calculator for Python written in Rust."
 readme = "README.md"
 authors = [{ name = "Jaime Liew", email = "jaimeliew1@gmail.com" }]
 requires-python = ">=3.7"
-dependencies = ["numpy>=1.19.2"]
+dependencies = [
+    "numpy>=1.21.6",
+]
 
 [dependency-groups]
-dev = ["pytest>=7.4.4"]
+dev = [
+    "pytest>=7.4.4",
+]
 
 
 [build-system]
-requires = ["maturin>=0.12,<0.13"]
+requires = ["maturin>=1.0,<2.0"]
 build-backend = "maturin"
