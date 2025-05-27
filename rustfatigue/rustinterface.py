@@ -1,8 +1,9 @@
 import numpy as np
 from . import rustfatigue
+from typing import List
 
 
-def damage_equiv_load(signal: list[float], m: float, neq: int, half: bool = True):
+def damage_equiv_load(signal: List[float], m: float, neq: int, half: bool = True):
     """
     Calculate the Damage Equivalent Load (DEL) for a given signal.
 
