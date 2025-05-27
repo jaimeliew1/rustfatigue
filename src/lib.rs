@@ -2,61 +2,6 @@
 use itertools::Itertools;
 use num::traits::{Float, FromPrimitive, ToPrimitive};
 
-#[derive(Debug)]
-enum Zone {
-    Begin,
-    Uphill,
-    Downhill,
-}
-
-pub fn get_peaktrough_thres<T>(signal: &Vec<T>, thres: T) -> Vec<T>
-where
-    T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
-{
-    let mut peaktrough: Vec<T> = Vec::new();
-    let mut zone = Zone::Begin;
-    let mut peak = signal[0];
-    let mut trough = signal[0];
-
-    for x in signal.iter() {
-        match zone {
-            Zone::Begin if *x > peak => {
-                peak = *x;
-                if peak - trough > thres {
-                    peaktrough.push(trough);
-                    zone = Zone::Uphill;
-                }
-            }
-            Zone::Begin if *x < trough => {
-                trough = *x;
-                if peak - trough > thres {
-                    peaktrough.push(peak);
-                    zone = Zone::Downhill;
-                }
-            }
-            Zone::Uphill if *x > peak => peak = *x,
-            Zone::Uphill if peak - *x >= thres => {
-                peaktrough.push(peak);
-                trough = *x;
-                zone = Zone::Downhill;
-            }
-            Zone::Downhill if *x < trough => trough = *x,
-            Zone::Downhill if *x - trough >= thres => {
-                peaktrough.push(trough);
-                peak = *x;
-                zone = Zone::Uphill;
-            }
-            _ => (),
-        }
-    }
-    peaktrough.push(match zone {
-        Zone::Uphill => peak,
-        Zone::Downhill => trough,
-        Zone::Begin => (peak + trough) / T::from(2).unwrap(),
-    });
-    peaktrough
-}
-
 pub fn get_peaktrough<T>(signal: &Vec<T>) -> Vec<T>
 where
     T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
