@@ -1,5 +1,11 @@
 #!/bin/bash
 set -euo pipefail
+
+echo "⚙️ Installing Rust toolchain via rustup..."
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env"
+
+# Change to parent directory of script
 cd "$(dirname "$(realpath "$0")")/.."
 
 # ----------------------------------------
