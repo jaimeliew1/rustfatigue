@@ -73,7 +73,7 @@ where
     peaktrough
 }
 
-pub fn get_halfcycles<T>(peaktrough: &Vec<T>) -> Vec<T>
+pub fn get_halfcycles<T>(peaktrough: &Vec<T>, half: bool) -> Vec<T>
 where
     T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
 {
@@ -97,17 +97,20 @@ where
     // phase 2
     for (i, s) in S[0..S.len() - 1].iter().enumerate() {
         halfcycles.push((S[i + 1] - *s).abs());
+        if !half {
+            halfcycles.push((S[i + 1] - *s).abs());
+        } 
     }
 
     halfcycles
 }
 
-pub fn eq_load<T>(signal: &Vec<T>, m: f64, neq: u64) -> f64
+pub fn eq_load<T>(signal: &Vec<T>, m: f64, neq: u64, half: bool) -> f64
 where
     T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
 {
     let peaktrough = get_peaktrough(&signal);
-    let amplitudes = get_halfcycles(&peaktrough);
+    let amplitudes = get_halfcycles(&peaktrough, half);
 
     let sum_damage: f64 = amplitudes
         .iter()
