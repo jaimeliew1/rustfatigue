@@ -38,7 +38,7 @@ By default, residual cycles are counted as half-cycles (which is standard practi
 If you prefer a more conservative estimate by counting residuals as full cycles, set `half=False`:
 
 
-```
+```python
 DEL = damage_equiv_load(signal, wohler, Ncycles, half=False)
 ```
 
