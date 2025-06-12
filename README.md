@@ -9,7 +9,7 @@ The core computation is implemented in Rust for high performance, wrapped with a
 pip install rust-fatigue
 ```
 # Usage
-This package provides a single function which returns the DEL of a signal:
+This package provides a two functions. The first returns the DEL of a signal:
 ```python
 damage_equiv_load(signal: list[float], m: float, neq: int, half: bool=True) -> float
 ```
@@ -18,6 +18,12 @@ damage_equiv_load(signal: list[float], m: float, neq: int, half: bool=True) -> f
 - `neq`: Number of equivalent full-cycles.
 - `half`: Whether to count residual cycles as half-cycles (True, default) or full cycles (False).
 
+The second function returns the rainflow counting results of a signal in the form of a list of half cycle ranges:
+```python
+rainflow_count(signal: list[float], half: bool=True) -> list[float]
+```
+- `signal`: List or NumPy array of load values.
+- `half`: Whether to count residual cycles as half-cycles (True, default) or full cycles (False).
 # Example
 ```python
 from rustfatigue import damage_equiv_load
