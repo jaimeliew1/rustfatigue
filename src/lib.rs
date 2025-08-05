@@ -18,6 +18,27 @@ where
     peaktrough
 }
 
+pub fn get_peaktrough_with_rotation<T>(signal: &Vec<T>) -> Vec<T>
+where
+    T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
+{
+    let max_index = signal
+        .iter()
+        .enumerate()
+        .filter(|(_, &v)| !v.is_nan())
+        .max_by(|(_, a), (_, b)| a.partial_cmp(b).unwrap())
+        .map(|(i, _)| i)
+        .unwrap();
+
+    let mut signal = signal.clone();
+    signal.rotate_left(max_index);
+    signal.push(signal[0]);
+
+    let peaktrough = get_peaktrough(&signal);
+
+    peaktrough
+}
+
 pub fn get_halfcycles<T>(peaktrough: &Vec<T>, half: bool) -> Vec<T>
 where
     T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
@@ -58,10 +79,16 @@ where
     let peaktrough = get_peaktrough(&signal);
     let ranges = get_halfcycles(&peaktrough, half);
 
-    let sum_damage: f64 = ranges
-        .iter()
-        .map(|x| T::to_f64(x).unwrap().powf(m))
-        .sum();
+    let sum_damage: f64 = ranges.iter().map(|x| T::to_f64(x).unwrap().powf(m)).sum();
+    let del = (sum_damage / (2.0 * neq as f64)).powf(1.0 / m);
+    del
+}
+
+pub fn eq_load_max_half_cycle_closed(signal: &Vec<f64>, m: f64, neq: u64, half: bool) -> f64 {
+    let peaktrough = get_peaktrough_with_rotation(signal);
+    let ranges = get_halfcycles(&peaktrough, half);
+
+    let sum_damage: f64 = ranges.iter().map(|x| x.powf(m)).sum();
     let del = (sum_damage / (2.0 * neq as f64)).powf(1.0 / m);
     del
 }
