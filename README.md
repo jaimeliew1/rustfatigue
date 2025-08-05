@@ -11,12 +11,13 @@ pip install rust-fatigue
 # Usage
 This package provides a two functions. The first returns the DEL of a signal:
 ```python
-damage_equiv_load(signal: list[float], m: float, neq: int, half: bool=True) -> float
+damage_equiv_load(signal: list[float], m: float, neq: int, half: bool=True, max_closed=False) -> float
 ```
 - `signal`: List or NumPy array of load values.
 - `m`: Wöhler (fatigue) exponent.
 - `neq`: Number of equivalent full-cycles.
 - `half`: Whether to count residual cycles as half-cycles (True, default) or full cycles (False).
+- `max_closed`: Whether to begin the peak/trough search from the largest peak (default=False).
 
 The second function returns the rainflow counting results of a signal in the form of a list of half cycle ranges:
 ```python

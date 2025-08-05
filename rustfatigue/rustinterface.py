@@ -3,7 +3,7 @@ from . import rustfatigue
 from typing import List
 
 
-def damage_equiv_load(signal: List[float], m: float, neq: int, half: bool = True):
+def damage_equiv_load(signal: List[float], m: float, neq: int, half: bool = True, max_closed: bool = False):
     """
     Calculate the Damage Equivalent Load (DEL) for a given signal.
 
@@ -13,13 +13,21 @@ def damage_equiv_load(signal: List[float], m: float, neq: int, half: bool = True
         neq (int): Number of equivalent load cycles.
         half (bool): Whether to count the residual cycles as half (True) or
                      whole (False) cycles. (default=True).
+        max_closed (bool): Whether to begin the peak/trough search from the
+                    largest peak (default=False).
 
     Returns:
         float: The damage equivalent load.
     """
-    return rustfatigue.eq_load_python(
-        np.array(signal, dtype=np.float64), float(m), int(neq), half
-    )
+    if max_closed:
+        return rustfatigue.eq_load_max_half_cycle_closed_python(
+            np.array(signal, dtype=np.float64), float(m), int(neq), half
+        )
+    else:
+        return rustfatigue.eq_load_python(
+            np.array(signal, dtype=np.float64), float(m), int(neq), half
+        )
+
 
 
 def rainflow_count(signal: List[float], half: bool = True):
