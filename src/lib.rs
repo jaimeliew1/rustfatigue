@@ -39,11 +39,11 @@ where
     peaktrough
 }
 
-pub fn get_halfcycles<T>(peaktrough: &Vec<T>, half: bool) -> Vec<T>
+pub fn get_halfcycles<T>(peaktrough: &Vec<T>, half: bool) -> Vec<(T, T)>
 where
     T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
 {
-    let mut halfcycles: Vec<T> = Vec::new();
+    let mut halfcycles: Vec<(T, T)> = Vec::new();
     let mut S = peaktrough.clone();
     let mut i: usize = 3;
 
@@ -52,8 +52,10 @@ where
         if (S[i - 3] - S[i - 2]).abs() >= (S[i - 2] - S[i - 1]).abs()
             && (S[i - 1] - S[i]).abs() >= (S[i - 2] - S[i - 1]).abs()
         {
-            halfcycles.push((S[i - 2] - S[i - 1]).abs());
-            halfcycles.push((S[i - 2] - S[i - 1]).abs());
+            let mean = (S[i - 2] + S[i - 1]) / T::from_f64(2.0).unwrap();
+            let range = (S[i - 2] - S[i - 1]).abs();
+            halfcycles.push((mean, range));
+            halfcycles.push((mean, range));
             S.remove(i - 1);
             S.remove(i - 2);
         } else {
@@ -62,10 +64,11 @@ where
     }
     // phase 2
     for w in S.windows(2) {
+        let mean = (w[1] + w[0]) / T::from_f64(2.0).unwrap();
         let r = (w[1] - w[0]).abs();
-        halfcycles.push(r);
+        halfcycles.push((mean, r));
         if !half {
-            halfcycles.push(r);
+            halfcycles.push((mean, r));
         }
     }
 
@@ -77,18 +80,21 @@ where
     T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
 {
     let peaktrough = get_peaktrough(&signal);
-    let ranges = get_halfcycles(&peaktrough, half);
+    let halfcycles = get_halfcycles(&peaktrough, half);
 
-    let sum_damage: f64 = ranges.iter().map(|x| T::to_f64(x).unwrap().powf(m)).sum();
+    let sum_damage: f64 = halfcycles
+        .iter()
+        .map(|(_, range)| T::to_f64(range).unwrap().powf(m))
+        .sum();
     let del = (sum_damage / (2.0 * neq as f64)).powf(1.0 / m);
     del
 }
 
 pub fn eq_load_max_half_cycle_closed(signal: &Vec<f64>, m: f64, neq: u64, half: bool) -> f64 {
     let peaktrough = get_peaktrough_with_rotation(signal);
-    let ranges = get_halfcycles(&peaktrough, half);
+    let halfcycles = get_halfcycles(&peaktrough, half);
 
-    let sum_damage: f64 = ranges.iter().map(|x| x.powf(m)).sum();
+    let sum_damage: f64 = halfcycles.iter().map(|(_, range)| range.powf(m)).sum();
     let del = (sum_damage / (2.0 * neq as f64)).powf(1.0 / m);
     del
 }
