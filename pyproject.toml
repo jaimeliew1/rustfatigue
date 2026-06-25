@@ -1,18 +1,14 @@
 [project]
 name = "rust-fatigue"
-version = "0.1.7"
+version = "0.1.8"
 description = "A damage equivalent load calculator for Python written in Rust."
 readme = "README.md"
 authors = [{ name = "Jaime Liew", email = "jaimeliew1@gmail.com" }]
 requires-python = ">=3.8"
-dependencies = [
-    "numpy>=1.21.6",
-]
+dependencies = ["numpy>=1.21.6"]
 
 [dependency-groups]
-dev = [
-    "pytest>=7.4.4",
-]
+dev = ["pytest>=7.4.4"]
 
 
 [build-system]
