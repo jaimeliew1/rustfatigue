@@ -17,7 +17,7 @@ pub fn eq_load_max_half_cycle_closed_python(signal: PyReadonlyArrayDyn<'_, f64>,
 
 
 #[pyfunction]
-pub fn halfcycles(signal: PyReadonlyArrayDyn<'_, f64>, half: bool) -> Vec<f64> {
+pub fn halfcycles(signal: PyReadonlyArrayDyn<'_, f64>, half: bool) -> Vec<(f64, f64)> {
     let peaktrough = get_peaktrough(&signal.to_vec().unwrap());
     get_halfcycles(&peaktrough, half)
 }
