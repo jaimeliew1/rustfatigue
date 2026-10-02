@@ -44,26 +44,31 @@ where
     T: Float + FromPrimitive + ToPrimitive + std::fmt::Debug,
 {
     let mut halfcycles: Vec<(T, T)> = Vec::new();
-    let mut S = peaktrough.clone();
-    let mut i: usize = 3;
+    // stack-based rewrite of the 4-point rainflow scan: merges only ever touch
+    // the top few elements, so removals are O(1) instead of O(n), making this
+    // O(n) overall rather than the O(n^2) of repeatedly removing from the middle.
+    let mut stack: Vec<T> = Vec::with_capacity(peaktrough.len());
 
-    // phase 1
-    while i < S.len() {
-        if (S[i - 3] - S[i - 2]).abs() >= (S[i - 2] - S[i - 1]).abs()
-            && (S[i - 1] - S[i]).abs() >= (S[i - 2] - S[i - 1]).abs()
-        {
-            let mean = (S[i - 2] + S[i - 1]) / T::from_f64(2.0).unwrap();
-            let range = (S[i - 2] - S[i - 1]).abs();
-            halfcycles.push((mean, range));
-            halfcycles.push((mean, range));
-            S.remove(i - 1);
-            S.remove(i - 2);
-        } else {
-            i += 1;
+    for &x in peaktrough.iter() {
+        stack.push(x);
+        while stack.len() >= 4 {
+            let n = stack.len();
+            if (stack[n - 4] - stack[n - 3]).abs() >= (stack[n - 3] - stack[n - 2]).abs()
+                && (stack[n - 2] - stack[n - 1]).abs() >= (stack[n - 3] - stack[n - 2]).abs()
+            {
+                let mean = (stack[n - 3] + stack[n - 2]) / T::from_f64(2.0).unwrap();
+                let range = (stack[n - 3] - stack[n - 2]).abs();
+                halfcycles.push((mean, range));
+                halfcycles.push((mean, range));
+                stack.remove(n - 2);
+                stack.remove(n - 3);
+            } else {
+                break;
+            }
         }
     }
     // phase 2
-    for w in S.windows(2) {
+    for w in stack.windows(2) {
         let mean = (w[1] + w[0]) / T::from_f64(2.0).unwrap();
         let r = (w[1] - w[0]).abs();
         halfcycles.push((mean, r));
