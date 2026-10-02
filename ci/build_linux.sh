@@ -21,12 +21,27 @@ PY_VERSIONS=(
   python3.11
   python3.12
   python3.13
+  python3.14
 )
 
-echo "🔧 Building wheels for Python versions: ${PY_VERSIONS[*]}"
+echo "🔧 Building and testing wheels for Python versions: ${PY_VERSIONS[*]}"
 for PY in "${PY_VERSIONS[@]}"; do
   echo "▶ Building for $PY..."
   uv build --python "$PY"
+
+  echo "🧪 Testing wheel for $PY..."
+  WHEEL=$(ls -t dist/*.whl | head -n1)
+  TEST_VENV=$(mktemp -d)
+  uv venv --python "$PY" "$TEST_VENV"
+  uv pip install --python "$TEST_VENV/bin/python" "$WHEEL" pytest
+
+  # copy the test file to a clean dir so the local rustfatigue/ source
+  # doesn't shadow the installed wheel when imported
+  TEST_DIR=$(mktemp -d)
+  cp rustfatigue/tests/rustfatigue_test.py "$TEST_DIR/"
+  (cd "$TEST_DIR" && "$TEST_VENV/bin/python" -m pytest . -q)
+
+  rm -rf "$TEST_VENV" "$TEST_DIR"
 done
 
 # ----------------------------------------
