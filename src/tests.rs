@@ -1,5 +1,6 @@
 #![cfg(test)]
-use crate::{eq_load, get_halfcycles, get_peaktrough};
+use crate::eq_load;
+use crate::rainflow::{get_halfcycles, get_peaktrough};
 
 static INP: [f64; 20] = [
     40.0, 15.0, 72.0, 22.0, 43.0, 82.0, 75.0, 7.0, 34.0, 49.0, 95.0, 75.0, 85.0, 47.0, 63.0, 31.0,
@@ -14,6 +15,7 @@ mod tests {
             40.0, 15.0, 72.0, 22.0, 82.0, 7.0, 95.0, 75.0, 85.0, 47.0, 63.0, 31.0, 90.0, 20.0, 39.0,
         ];
         assert!(get_peaktrough(&INP.to_vec())
+            .unwrap()
             .iter()
             .enumerate()
             .all(|(i, &val)| val == ans[i]));
@@ -37,7 +39,7 @@ mod tests {
             (57.5, 75.0),
             (29.5, 19.0),
         ];
-        let peaktroughs = get_peaktrough(&INP.to_vec());
+        let peaktroughs = get_peaktrough(&INP.to_vec()).unwrap();
         assert!(get_halfcycles(&peaktroughs, true)
             .iter()
             .enumerate()
@@ -46,14 +48,14 @@ mod tests {
 
     #[test]
     fn eq_load_float() {
-        let out = eq_load(&INP.to_vec(), 4.0, 20, true);
+        let out = eq_load(&INP.to_vec(), 4.0, 20, true).unwrap();
         println!("{}", out);
         assert!((out - 46.10943506509813).abs() < 0.0001);
     }
     
     #[test]
     fn eq_load_float_doublecount_residuals() {
-        let out = eq_load(&INP.to_vec(), 4.0, 20, false);
+        let out = eq_load(&INP.to_vec(), 4.0, 20, false).unwrap();
         println!("{}", out);
         assert!((out - 53.37846821582299).abs() < 0.0001);
     }
